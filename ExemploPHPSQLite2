@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <h2>Formulário de Cadastro</h2>
+
+    <form method="post" action="processa.php">
+        Nome: <input type="text" name="nome" required><br><br>
+        Email: <input type="email" name="email" required><br><br>
+        <input type="submit" value="Cadastrar">
+    </form>
+
+    <?php
+
+    $db = new SQLite3('usuarios.db');
+
+    $db->exec("CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, email TEXT NOT NULL
+    )");
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' ) {
+        $nome = $_POST['nome'];
+        $email = $_POST['email'];
+
+        $stmt = $db->prepare("INSERT INTO usurarios (nome, email ) VALUES    (:nome, :email)");
+        $stmt->bindValue(':nome', $nome, SQLITE3_TEXT);
+        $stmt->bindValue(':email', $email, SQLITE3_TEXT);
+        $stmt->execute();
+
+        echo "<p>Usuário cadastrado com sucesso!</p>";
+    }
+?>
+</body>
+</html>
