@@ -29,7 +29,13 @@
         $stmt->execute();
 
         echo "<p>Usuário cadastrado com sucesso!</p>";
-    }
+        $result = $db->query("SELECT id, nome, email FROM usuarios");
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+echo "ID: " . $row['id'] . " - Nome: " . . $row['nome'] . " - Email: " . . $row['email'] . "<br>";
+}
+
+    $db->close();
 ?>
 </body>
 </html>
